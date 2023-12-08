@@ -1,12 +1,20 @@
 <?php
-
-$recepient = "kipchumbarodgers@gmail.com";
-$sitename = "sitename";
-
-$name = trim($_POST["name"]);
-$email = trim($_POST["email"]);
-$text = trim($_POST["text"]);
-$message = "Name: $name \nEmail: $email \nText: $text";
-
-$pagetitle = "New message from the \"$sitename\"";
-mail($recepient, $pagetitle, $message, "Content-type: text/plain; charset=\"utf-8\"\n From: $recepient");
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = $_POST["name"];
+    $email = $_POST["email"];
+    $message = $_POST["text"];
+    
+    $to = "kipchumbarodgers@gmail.com";
+    $subject = "New Contact Form Submission from $name";
+    
+    $headers = "From: $email";
+    
+    if (mail($to, $subject, $message, $headers)) {
+        echo "Message sent successfully!";
+    } else {
+        echo "Error sending the message. Please try again later.";
+    }
+} else {
+    echo "Invalid request. Please submit the form.";
+}
+?>
